@@ -30,11 +30,11 @@ public class TaskManager {
         tasks.remove(id);
     }
 
-    public void getTaskUsingId(int id) {
+    public Object getTaskUsingId(int id) {
         if(tasks.containsKey(id)) {
-            System.out.println(tasks.get(id));
+            return tasks.get(id);
         } else {
-            System.out.println("No such task");
+            return "No such task";
         }
     }
 
@@ -69,11 +69,11 @@ public class TaskManager {
         epics.remove(id);
     }
 
-    public void getEpicUsingId(int id) {
+    public Object getEpicUsingId(int id) {
         if(epics.containsKey(id)) {
-            System.out.println(epics.get(id));
+            return epics.get(id);
         } else {
-            System.out.println("No such task");
+            return "No such task";
         }
     }
 
@@ -122,11 +122,11 @@ public class TaskManager {
         subtasks.remove(id);
     }
 
-    public void getSubtaskUsingId(int id) {
+    public Object getSubtaskUsingId(int id) {
         if(subtasks.containsKey(id)) {
-            System.out.println(subtasks.get(id));
+            return subtasks.get(id);
         } else {
-            System.out.println("No such task");
+            return "No such task";
         }
     }
 
@@ -139,12 +139,14 @@ public class TaskManager {
         }
     }
 
-    public void getSubtasksOfEpic(int epicId) {
+    public Object getSubtasksOfEpic(int epicId) {
+
         Epic epicWeNeed = epics.get(epicId);
         ArrayList<Integer> idsWeNeed = epicWeNeed.getIdOfSubtasks();
         for(Integer id : idsWeNeed) {
-            System.out.println(subtasks.get(id));
+            return subtasks.get(id);
         }
+        return 0;
     }
 
     public void changeEpicStatus(Epic epic) {

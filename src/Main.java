@@ -6,7 +6,7 @@ import Tasks.Task;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Поехали!");
+        /*System.out.println("Поехали!");
         TaskManager taskManager = new TaskManager();
         Task task1 = new Task("Переезд", "В новую квартиру", Statuses.NEW);
         Task task2 = new Task("Переезд", "В новый дом", Statuses.NEW);
@@ -15,8 +15,8 @@ public class Main {
         Subtask subtask1 = new Subtask("Приложение банка", "Открыть приложение банка", Statuses.IN_PROGRESS, 3);
         Epic epic2 = new Epic("jjjjj", "kkkkk");
         Epic epic3 = new Epic("jjj", "kkk",3);
-        Subtask subtask2 = new Subtask("jfldsjf", "jfesjfslf", Statuses.NEW, 5);
-        Subtask subtask3 = new Subtask("hsfhweiufyew", "hewhfefhew", Statuses.NEW, 5);
+        Subtask subtask2 = new Subtask("jfldsjf", "jfesjfslf", Statuses.DONE, 5);
+        Subtask subtask3 = new Subtask("hsfhweiufyew", "hewhfefhew", Statuses.DONE, 5);
         Subtask subtask4 = new Subtask("hsfhweiufyew", "hewhfefhew", Statuses.NEW, 5,6);
 
         taskManager.addTask(task1);
@@ -26,11 +26,11 @@ public class Main {
         taskManager.addEpic(epic2);
         taskManager.addSubtask(subtask2);
         taskManager.addSubtask(subtask3);
+        System.out.println(taskManager.getSubtasksOfEpic(3));
 
 
         System.out.println(taskManager.printAllTasks());
         System.out.println(taskManager.printAllEpics());
-        System.out.println(taskManager.printAllSubtasks());
-
+        System.out.println(taskManager.printAllSubtasks());*/
     }
 }
