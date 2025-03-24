@@ -1,14 +1,12 @@
-package Tasks;
-
-import java.util.Objects;
+package tasks;
 
 public class Task {
     protected String name;
     protected String description;
     protected int id;
-    protected Statuses status;
+    protected Status status;
 
-    public Task(String name,String description,Statuses status,int id) {
+    public Task(String name, String description, Status status, int id) {
         this(name,description,status);
         this.id = id;
     }
@@ -18,7 +16,7 @@ public class Task {
         this.description = description;
     }
 
-    public Task(String name,String description,Statuses status) {
+    public Task(String name, String description, Status status) {
         this(name,description);
         this.status = status;
 
@@ -41,5 +39,13 @@ public class Task {
                 "ID задачи: " + id + '\n' +
                 "Статус задачи: " + status + '\n' + '\n';
 
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

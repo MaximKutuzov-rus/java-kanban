@@ -1,10 +1,9 @@
-package Tasks;
+package tasks;
 
 import java.util.ArrayList;
 
 public class Epic extends Task {
     protected ArrayList<Integer> idOfSubtasks = new ArrayList<>();
-    protected Statuses status;
 
     public Epic(String name, String description) {
         super(name, description);
@@ -32,10 +31,5 @@ public class Epic extends Task {
     @Override
     public int getId() {
         return super.getId();
-    }
-
-
-    public void setStatus(Statuses status) {
-        this.status = status;
     }
 }

@@ -1,18 +1,15 @@
-package Tasks;
-
-import java.util.Objects;
+package tasks;
 
 public class Subtask extends Task {
     protected final int idOfEpic;
-    protected Statuses status;
 
-    public Subtask(String name, String description, Statuses status, int idOfEpic) {
+    public Subtask(String name, String description, Status status, int idOfEpic) {
         super(name,description);
         this.idOfEpic = idOfEpic;
         this.status = status;
     }
 
-    public Subtask(String name, String description, Statuses status, int idOfEpic, int id) {
+    public Subtask(String name, String description, Status status, int idOfEpic, int id) {
         this(name,description,status,idOfEpic);
         this.id = id;
     }
@@ -28,9 +25,5 @@ public class Subtask extends Task {
                 "ID подзадачи: " + id + '\n' +
                 "Статус подзадачи: " + status + '\n' +
                 "ID эпика: " + idOfEpic + '\n' + '\n';
-    }
-
-    public Statuses getStatus() {
-        return status;
     }
 }
