@@ -18,7 +18,7 @@ public class Main {
         Subtask subtask1 = new Subtask("Приложение банка", "Открыть приложение банка", Status.IN_PROGRESS, 3);
         Epic epic2 = new Epic("jjjjj", "kkkkk");
         Epic epic3 = new Epic("jjj", "kkk",3);
-        Subtask subtask2 = new Subtask("jfldsjf", "jfesjfslf", Status.DONE, 5);
+        Subtask subtask2 = new Subtask("jfldsjf", "jfesjfslf", Status.IN_PROGRESS, 5);
         Subtask subtask3 = new Subtask("hsfhweiufyew", "hewhfefhew", Status.DONE, 5);
         Subtask subtask4 = new Subtask("hsfhweiufyew", "hewhfefhew", Status.NEW, 5,6);
 
@@ -29,8 +29,6 @@ public class Main {
         taskManager.addEpic(epic2);
         taskManager.addSubtask(subtask2);
         taskManager.addSubtask(subtask3);
-
-        taskManager.deleteAllSubtasks();
 
         taskManager.getAllTasks();
         taskManager.getAllSubtasks();

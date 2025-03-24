@@ -81,14 +81,14 @@ public class TaskManager {
 
     public void updateEpic(Epic epic) {
         if(epics.containsKey(epic.getId())) {
+            ArrayList<Integer> ids = epics.get(epic.getId()).getIdOfSubtasks();
+            for(Integer id : ids) {
+                subtasks.remove(id);
+            }
             epics.put(epic.getId(),epic);
+            changeEpicStatus(epic);
         } else {
             System.out.println("No such task");
-        }
-
-        ArrayList<Integer> ids = epics.get(epic.getId()).getIdOfSubtasks();
-        for(Integer id : ids) {
-            subtasks.remove(id);
         }
     }
 
