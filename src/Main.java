@@ -1,5 +1,3 @@
-package main;
-
 import manager.TaskManager;
 import tasks.Epic;
 import tasks.Status;
@@ -30,8 +28,10 @@ public class Main {
         taskManager.addSubtask(subtask2);
         taskManager.addSubtask(subtask3);
 
-        taskManager.getAllTasks();
-        taskManager.getAllSubtasks();
-        taskManager.getAllEpics();
+        System.out.println(taskManager.getSubtasksOfEpic(5));
+
+        System.out.println(taskManager.getAllTasks());
+        System.out.println(taskManager.getAllEpics());
+        System.out.println(taskManager.getAllSubtasks());
     }
 }
