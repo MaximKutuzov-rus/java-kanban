@@ -1,11 +1,11 @@
 package tasks;
 
 public class Subtask extends Task {
-    protected final int EpicId;
+    protected final int epicId;
 
     public Subtask(String name, String description, Status status, int EpicId) {
         super(name,description);
-        this.EpicId = EpicId;
+        this.epicId = EpicId;
         this.status = status;
     }
 
@@ -15,7 +15,7 @@ public class Subtask extends Task {
     }
 
     public int getEpicId() {
-        return EpicId;
+        return epicId;
     }
 
     @Override
@@ -24,6 +24,6 @@ public class Subtask extends Task {
                 "Описание подзадачи: " + description + '\n' +
                 "ID подзадачи: " + id + '\n' +
                 "Статус подзадачи: " + status + '\n' +
-                "ID эпика: " + EpicId + '\n' + '\n';
+                "ID эпика: " + epicId + '\n' + '\n';
     }
 }

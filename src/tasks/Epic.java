@@ -3,7 +3,7 @@ package tasks;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    protected ArrayList<Integer> SubtasksIds = new ArrayList<>();
+    protected ArrayList<Integer> subtasksIds = new ArrayList<>();
 
     public Epic(String name, String description) {
         super(name, description);
@@ -15,7 +15,7 @@ public class Epic extends Task {
     }
 
     public ArrayList<Integer> getSubtasksIds() {
-        return SubtasksIds;
+        return subtasksIds;
     }
 
 
@@ -25,7 +25,7 @@ public class Epic extends Task {
                 "Описание эпика: " + description + '\n' +
                 "ID эпика: " + id + '\n' +
                 "Статус эпика: " + status + '\n' +
-                "ID подзадач: " + SubtasksIds + '\n' + '\n';
+                "ID подзадач: " + subtasksIds + '\n' + '\n';
     }
 
     @Override
