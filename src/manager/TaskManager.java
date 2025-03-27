@@ -34,19 +34,12 @@ public class TaskManager {
     }
 
     public Task getTaskUsingId(int id) {
-        if(tasks.containsKey(id)) {
-            return tasks.get(id);
-        } else {
-            System.out.println("No such task");
-            return null;
-        }
+        return tasks.get(id);
     }
 
     public void updateTask(Task task) {
         if(tasks.containsKey(task.getId())) {
             tasks.put(task.getId(),task);
-        } else {
-            System.out.println("No such task");
         }
     }
 
@@ -74,12 +67,7 @@ public class TaskManager {
     }
 
     public Epic getEpicUsingId(int id) {
-        if(epics.containsKey(id)) {
-            return epics.get(id);
-        } else {
-            System.out.println("No such task");
-            return null;
-        }
+        return epics.get(id);
     }
 
     public void updateEpic(Epic epic) {
@@ -90,8 +78,6 @@ public class TaskManager {
             }
             epics.put(epic.getId(),epic);
             changeEpicStatus(epic);
-        } else {
-            System.out.println("No such task");
         }
     }
 
@@ -127,20 +113,13 @@ public class TaskManager {
     }
 
     public Subtask getSubtaskUsingId(int id) {
-        if(subtasks.containsKey(id)) {
-            return subtasks.get(id);
-        } else {
-            System.out.println("No such task");
-            return null;
-        }
+        return subtasks.get(id);
     }
 
     public void updateSubtask(Subtask subtask) {
         if(subtasks.containsKey(subtask.getId())) {
             subtasks.put(subtask.getId(),subtask);
             changeEpicStatus(epics.get(subtask.getEpicId()));
-        } else {
-            System.out.println("No such task");
         }
     }
 
