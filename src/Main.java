@@ -1,3 +1,4 @@
+import manager.InMemoryTaskManager;
 import manager.TaskManager;
 import tasks.Epic;
 import tasks.Status;
@@ -7,8 +8,8 @@ import tasks.Task;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Поехали!");
-        TaskManager taskManager = new TaskManager();
+        /*System.out.println("Поехали!");
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
         Task task1 = new Task("Переезд", "В новую квартиру", Status.NEW);
         Task task2 = new Task("Переезд", "В новый дом", Status.NEW);
         Task task3 = new Task("Переезд", "В новую квартиру", Status.IN_PROGRESS,2);
@@ -28,8 +29,14 @@ public class Main {
         taskManager.addSubtask(subtask2);
         taskManager.addSubtask(subtask3);
 
-        System.out.println(taskManager.getAllTasks());
+        taskManager.getTaskUsingId(2);
+        taskManager.getEpicUsingId(3);
+        taskManager.getSubtaskUsingId(6);
+
+        System.out.println(taskManager.getHistory());
+
+        /*System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
-        System.out.println(taskManager.getAllSubtasks());
+        System.out.println(taskManager.getAllSubtasks());*/
     }
 }
