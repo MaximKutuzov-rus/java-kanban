@@ -8,12 +8,13 @@ import tasks.Task;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private int id = 1;
-    public HashMap<Integer,Task> tasks = new HashMap<>();
-    public HashMap<Integer, Epic> epics = new HashMap<>();
-    public HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    public final HashMap<Integer,Task> tasks = new HashMap<>();
+    public final HashMap<Integer, Epic> epics = new HashMap<>();
+    public final HashMap<Integer, Subtask> subtasks = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     @Override
@@ -149,7 +150,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Subtask> getSubtasksOfEpic(int epicId) {
+    public List<Subtask> getSubtasksOfEpic(int epicId) {
 
         Epic epicWeNeed = epics.get(epicId);
         ArrayList<Subtask> subtasksWeNeed = new ArrayList<>();
@@ -161,7 +162,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return (ArrayList<Task>) historyManager.getHistory();
     }
 
@@ -189,6 +190,7 @@ public class InMemoryTaskManager implements TaskManager {
                 statusesSum += 0;
             } else if(status.equals(Status.IN_PROGRESS)) {
                 statusesSum += 1;
+                break;
             } else if(status.equals((Status.DONE))) {
                 statusesSum += 2;
             }

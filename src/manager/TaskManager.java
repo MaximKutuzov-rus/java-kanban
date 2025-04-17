@@ -4,8 +4,10 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
+
 
 public interface TaskManager {
     void addTask(Task task);
@@ -44,7 +46,7 @@ public interface TaskManager {
 
     void updateSubtask(Subtask subtask);
 
-    ArrayList<Subtask> getSubtasksOfEpic(int epicId);
+    List<Subtask> getSubtasksOfEpic(int epicId);
 
-    ArrayList<Task> getHistory();
+    List<Task> getHistory();
 }
