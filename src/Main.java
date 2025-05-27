@@ -8,7 +8,7 @@ import tasks.Task;
 public class Main {
 
     public static void main(String[] args) {
-        /*System.out.println("Поехали!");
+        System.out.println("Поехали!");
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
         Task task1 = new Task("Переезд", "В новую квартиру", Status.NEW);
         Task task2 = new Task("Переезд", "В новый дом", Status.NEW);
