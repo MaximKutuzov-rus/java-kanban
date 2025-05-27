@@ -40,6 +40,5 @@ public class Main {
         System.out.println(taskManager.getAllSubtasks());*/
 
         //Проверка коннекта ветки
-        //And again
     }
 }
