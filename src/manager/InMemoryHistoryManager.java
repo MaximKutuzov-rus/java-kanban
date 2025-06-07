@@ -7,6 +7,7 @@ import tasks.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
@@ -37,12 +38,15 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void removeNode(Node<Task> node) {
-        if (node == head) {
+        if (node == head && node != tail) {
             head = node.next;
             node.next.prev = null;
-        } else if (node == tail){
+        } else if (node == tail && node != head){
             tail = node.prev;
             node.prev.next = null;
+        } else if(node == tail) {
+            head = null;
+            tail = null;
         } else {
             node.next.prev = node.prev;
             node.prev.next = node.next;
@@ -89,6 +93,18 @@ public class InMemoryHistoryManager implements HistoryManager {
         return getTasks();
     }
 
+    public Node<Task> getHead() {
+        return head;
+    }
+
+    public Node<Task> getTail() {
+        return tail;
+    }
+
+    public Map<Integer, Node<Task>> getNodeMap() {
+        return nodeMap;
+    }
+
     static class Node<E> {
         public E data;
         public Node<E> next;
@@ -98,6 +114,18 @@ public class InMemoryHistoryManager implements HistoryManager {
             this.data = data;
             this.next = next;
             this.prev = prev;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null || getClass() != o.getClass()) return false;
+            Node<?> node = (Node<?>) o;
+            return Objects.equals(data, node.data) && Objects.equals(next, node.next) && Objects.equals(prev, node.prev);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(data, next, prev);
         }
     }
 }
