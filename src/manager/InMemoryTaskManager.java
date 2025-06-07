@@ -49,7 +49,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
-        if(tasks.containsKey(task.getId())) {
+        if (tasks.containsKey(task.getId())) {
             tasks.put(task.getId(),task);
         }
     }
@@ -93,9 +93,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic) {
-        if(epics.containsKey(epic.getId())) {
+        if (epics.containsKey(epic.getId())) {
             ArrayList<Integer> ids = epics.get(epic.getId()).getSubtasksIds();
-            for(Integer id : ids) {
+            for (Integer id : ids) {
                 subtasks.remove(id);
             }
             epics.put(epic.getId(),epic);
@@ -124,7 +124,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteAllSubtasks() {
         subtasks.clear();
-        for(Epic epic : epics.values()) {
+        for (Epic epic : epics.values()) {
             epic.getSubtasksIds().clear();
             calculateEpicStatus(epic);
         }
@@ -148,7 +148,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubtask(Subtask subtask) {
-        if(subtasks.containsKey(subtask.getId())) {
+        if (subtasks.containsKey(subtask.getId())) {
             subtasks.put(subtask.getId(),subtask);
             calculateEpicStatus(epics.get(subtask.getEpicId()));
         }
@@ -160,7 +160,7 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epicWeNeed = epics.get(epicId);
         ArrayList<Subtask> subtasksWeNeed = new ArrayList<>();
         ArrayList<Integer> subtasksWeNeedIds = epicWeNeed.getSubtasksIds();
-        for(Integer id : subtasksWeNeedIds) {
+        for (Integer id : subtasksWeNeedIds) {
             subtasksWeNeed.add(subtasks.get(id));
         }
         return subtasksWeNeed;
@@ -174,36 +174,36 @@ public class InMemoryTaskManager implements TaskManager {
     public void calculateEpicStatus(Epic epic) {
         ArrayList<Integer> idsOfSubtasks = epic.getSubtasksIds();
         ArrayList<Subtask> subtasksInEpic = new ArrayList<>();
-        for(Integer id : idsOfSubtasks) {
+        for (Integer id : idsOfSubtasks) {
             subtasksInEpic.add(subtasks.get(id));
         }
 
         ArrayList<Status> statusesOfSubtasks = new ArrayList<>();
 
-        for(Subtask subtask : subtasksInEpic) {
+        for (Subtask subtask : subtasksInEpic) {
             statusesOfSubtasks.add(subtask.getStatus());
         }
 
-        if(subtasksInEpic.isEmpty()) {
+        if (subtasksInEpic.isEmpty()) {
             epic.setStatus(Status.NEW);
         }
 
         int statusesSum = 0;
 
-        for(Status status : statusesOfSubtasks) {
-            if(status.equals(Status.NEW)) {
+        for (Status status : statusesOfSubtasks) {
+            if (status.equals(Status.NEW)) {
                 statusesSum += 0;
-            } else if(status.equals(Status.IN_PROGRESS)) {
+            } else if (status.equals(Status.IN_PROGRESS)) {
                 statusesSum += 1;
                 break;
-            } else if(status.equals((Status.DONE))) {
+            } else if (status.equals((Status.DONE))) {
                 statusesSum += 2;
             }
         }
 
-        if(statusesSum == 0) {
+        if (statusesSum == 0) {
             epic.setStatus(Status.NEW);
-        } else if(statusesSum == 2*statusesOfSubtasks.size()) {
+        } else if (statusesSum == 2 * statusesOfSubtasks.size()) {
             epic.setStatus(Status.DONE);
         } else {
             epic.setStatus(Status.IN_PROGRESS);
