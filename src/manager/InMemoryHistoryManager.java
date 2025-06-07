@@ -16,9 +16,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private final Map<Integer,Node<Task>> nodeMap = new HashMap<>();
 
-    private Node<Task> linkLast (Task task) {
+    private Node<Task> linkLast (Task task){
         final Node<Task> oldTail = tail;
-        final Node<Task> newNode = new Node<>(oldTail, task , null);
+        final Node<Task> newNode = new Node<>(oldTail, task, null);
         tail = newNode;
         if (oldTail == null)
             head = newNode;
@@ -37,14 +37,14 @@ public class InMemoryHistoryManager implements HistoryManager {
         return tasks;
     }
 
-    private void removeNode(Node<Task> node) {
-        if (node == head && node != tail) {
+    private void removeNode(Node<Task> node){
+        if (node == head && node != tail){
             head = node.next;
             node.next.prev = null;
         } else if (node == tail && node != head){
             tail = node.prev;
             node.prev.next = null;
-        } else if(node == tail) {
+        } else if(node == tail){
             head = null;
             tail = null;
         } else {
