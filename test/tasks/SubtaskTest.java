@@ -12,8 +12,8 @@ class SubtaskTest {
 
     @BeforeEach
     void setUp() {
-        subtask1 = new Subtask("Description task 1", "Task-1",Status.NEW,3);
-        subtask2 = new Subtask("Description task 2", "Task-2",Status.NEW,3);
+        subtask1 = new Subtask("Description task 1", "Task-1", Status.NEW,3);
+        subtask2 = new Subtask("Description task 1", "Task-1",Status.NEW,3);
     }
 
     @Test

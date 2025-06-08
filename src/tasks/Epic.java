@@ -21,7 +21,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "Название эпика: " + name + '\n' +
+        return  "Название эпика: " + name + '\n' +
                 "Описание эпика: " + description + '\n' +
                 "ID эпика: " + id + '\n' +
                 "Статус эпика: " + status + '\n' +
@@ -31,5 +31,9 @@ public class Epic extends Task {
     @Override
     public int getId() {
         return super.getId();
+    }
+
+    public void setSubtasksIds(ArrayList<Integer> subtasksIds) {
+        this.subtasksIds = subtasksIds;
     }
 }

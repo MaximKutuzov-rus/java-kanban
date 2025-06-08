@@ -12,7 +12,7 @@ class TaskTest {
     @BeforeEach
     void setUp() {
         task1 = new Task("Description task 1", "Task-1");
-        task2 = new Task("Description task 2", "Task-2");
+        task2 = new Task("Description task 1", "Task-1");
     }
 
     @Test
