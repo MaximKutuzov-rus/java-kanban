@@ -8,7 +8,6 @@ import tasks.Status;
 import tasks.Subtask;
 import tasks.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +26,7 @@ class InMemoryTaskManagerTest {
         Task task1 = new Task("Task1", "Desc1", Status.NEW);
         tm.addTask(task1);
 
-        assertEquals(task1, tm.getTaskUsingId(task1.getId()));
+        assertEquals(task1, tm.getTaskById(task1.getId()));
     }
 
     @Test

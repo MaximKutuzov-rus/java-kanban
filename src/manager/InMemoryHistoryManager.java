@@ -1,7 +1,5 @@
 package manager;
 
-import tasks.Epic;
-import tasks.Subtask;
 import tasks.Task;
 
 import java.util.ArrayList;
@@ -20,10 +18,11 @@ public class InMemoryHistoryManager implements HistoryManager {
         final Node<Task> oldTail = tail;
         final Node<Task> newNode = new Node<>(oldTail, task, null);
         tail = newNode;
-        if (oldTail == null)
+        if (oldTail == null) {
             head = newNode;
-        else
+        } else {
             oldTail.next = newNode;
+        }
         return newNode;
     }
 
@@ -56,27 +55,11 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        if (task instanceof Epic) {
-            if (nodeMap.containsKey(task.getId())) {
-                remove(task.getId());
-                nodeMap.put(task.getId(), linkLast(task));
-            } else {
-                nodeMap.put(task.getId(), linkLast(task));
-            }
-        } else if (task instanceof Subtask) {
-            if (nodeMap.containsKey(task.getId())) {
-                remove(task.getId());
-                nodeMap.put(task.getId(), linkLast(task));
-            } else {
-                nodeMap.put(task.getId(), linkLast(task));
-            }
+        if (nodeMap.containsKey(task.getId())) {
+            remove(task.getId());
+            nodeMap.put(task.getId(), linkLast(task));
         } else {
-            if (nodeMap.containsKey(task.getId())) {
-                remove(task.getId());
-                nodeMap.put(task.getId(), linkLast(task));
-            } else {
-                nodeMap.put(task.getId(), linkLast(task));
-            }
+            nodeMap.put(task.getId(), linkLast(task));
         }
     }
 

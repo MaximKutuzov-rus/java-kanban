@@ -26,29 +26,31 @@ public class Main {
         taskManager.addEpic(epic2);
 
 
-        taskManager.getTaskUsingId(2);
+        taskManager.getTaskById(2);
 
-        taskManager.getSubtaskUsingId(5);
+        taskManager.getSubtaskById(5);
 
-        taskManager.getEpicUsingId(7);
+        taskManager.getEpicById(7);
 
-        taskManager.getTaskUsingId(1);
+        taskManager.getTaskById(1);
 
-        taskManager.getSubtaskUsingId(4);
+        taskManager.getSubtaskById(4);
 
-        taskManager.getTaskUsingId(1);
+        taskManager.getTaskById(1);
 
-        taskManager.getSubtaskUsingId(6);
+        taskManager.getSubtaskById(6);
 
-        taskManager.getEpicUsingId(3);
+        taskManager.getEpicById(3);
 
-        taskManager.getEpicUsingId(7);
+        taskManager.getEpicById(7);
 
         taskManager.deleteSubtaskUsingId(5);
 
         taskManager.deleteEpicUsingId(3);
 
         System.out.println(taskManager.getHistory());
+
+        //System.out.println(taskManager.getHistory());
 
         /*System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
