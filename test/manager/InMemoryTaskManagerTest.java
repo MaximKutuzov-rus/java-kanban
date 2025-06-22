@@ -53,7 +53,7 @@ class InMemoryTaskManagerTest {
         tm.addEpic(epic);
         Subtask subtask = new Subtask("Subtask","New subtask",Status.IN_PROGRESS,1);
         tm.addSubtask(subtask);
-        tm.deleteSubtaskUsingId(2);
+        tm.deleteSubtaskById(2);
         Assertions.assertFalse(epic.getSubtasksIds().contains(2));
     }
 }

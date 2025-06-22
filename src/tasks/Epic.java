@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Epic extends Task {
     protected ArrayList<Integer> subtasksIds = new ArrayList<>();
+    private final TaskType type = TaskType.EPIC;
 
     public Epic(String name, String description) {
         super(name, description);
@@ -29,11 +30,7 @@ public class Epic extends Task {
     }
 
     @Override
-    public int getId() {
-        return super.getId();
-    }
-
-    public void setSubtasksIds(ArrayList<Integer> subtasksIds) {
-        this.subtasksIds = subtasksIds;
+    public TaskType getType() {
+        return type;
     }
 }

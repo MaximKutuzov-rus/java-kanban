@@ -7,6 +7,7 @@ public class Task {
     protected String description;
     protected int id;
     protected Status status;
+    private final TaskType type = TaskType.TASK;
 
     public Task(String name, String description, Status status, int id) {
         this(name,description,status);
@@ -70,5 +71,9 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(name, description, id, status);
+    }
+
+    public TaskType getType() {
+        return type;
     }
 }

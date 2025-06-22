@@ -25,7 +25,6 @@ public class Main {
         taskManager.addSubtask(subtask3);
         taskManager.addEpic(epic2);
 
-
         taskManager.getTaskById(2);
 
         taskManager.getSubtaskById(5);
@@ -44,9 +43,9 @@ public class Main {
 
         taskManager.getEpicById(7);
 
-        taskManager.deleteSubtaskUsingId(5);
+        taskManager.deleteSubtaskById(5);
 
-        taskManager.deleteEpicUsingId(3);
+        taskManager.deleteEpicById(3);
 
         System.out.println(taskManager.getHistory());
 
