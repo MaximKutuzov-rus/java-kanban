@@ -8,14 +8,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileBackedTaskManager extends InMemoryTaskManager{
+public class FileBackedTaskManager extends InMemoryTaskManager {
     public File file;
 
     public FileBackedTaskManager(File file) {
         this.file = file;
     }
 
-    public void save(){
+    public void save() {
         try {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8, false))) {
                 writer.write("id,type,name,status,description,epic\n");
@@ -62,26 +62,27 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
         return task;
     }
 
-    public FileBackedTaskManager loadFromFile(File file){
+    public FileBackedTaskManager loadFromFile(File file) {
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
         try {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))){
+            try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
                 reader.readLine();
-                while(reader.ready()) {
+                while (reader.ready()) {
                     Task task = fromString(reader.readLine());
-                    if(task.getType().equals(TaskType.TASK)) {
+                    if (task.getType().equals(TaskType.TASK)) {
                         Task copyTask = new Task(task.getName(), task.getDescription(), task.getStatus());
                         copyTask.setId(task.getId());
                         manager.tasks.put(copyTask.getId(),copyTask);
-                    } else if(task.getType().equals(TaskType.EPIC)) {
+                    } else if (task.getType().equals(TaskType.EPIC)) {
                         Epic epic = (Epic) task;
                         Epic copyEpic = new Epic(epic.getName(), epic.getDescription());
                         copyEpic.setId(epic.getId());
                         manager.epics.put(copyEpic.getId(),copyEpic);
                         calculateEpicStatus(copyEpic);
-                    } else if(task.getType().equals(TaskType.SUBTASK)) {
+                    } else if (task.getType().equals(TaskType.SUBTASK)) {
                         Subtask subtask = (Subtask) task;
-                        Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(), subtask.getEpicId());
+                        Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(),
+                                subtask.getStatus(), subtask.getEpicId());
                         copySubtask.setId(subtask.getId());
                         manager.subtasks.put(copySubtask.getId(),copySubtask);
                         Epic epicToAddId = manager.epics.get(copySubtask.getEpicId());
@@ -178,8 +179,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
             Task task1 = new Task("Переезд", "В новую квартиру", Status.NEW);
             Task task2 = new Task("Переезд", "В новый дом", Status.NEW);
             Epic epic1 = new Epic("Перевод денег", "Перевести деньги другу");
-            Subtask subtask1 = new Subtask("Приложение банка", "Открыть приложение банка", Status.IN_PROGRESS, 3);
-            Subtask subtask2 = new Subtask("Открыть вкладку расходов", "Открытие вкладки расходов", Status.NEW, 3);
+            Subtask subtask1 = new Subtask("Приложение банка", "Открыть приложение банка",
+                    Status.IN_PROGRESS, 3);
+            Subtask subtask2 = new Subtask("Открыть вкладку расходов", "Открытие вкладки расходов",
+                    Status.NEW, 3);
             Subtask subtask3 = new Subtask("Отправка", "Отправка денег другу", Status.DONE, 3);
             Epic epic2 = new Epic("Пройти курс", "Пройти курс от ЯП");
 
