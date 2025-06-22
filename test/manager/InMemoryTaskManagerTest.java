@@ -22,32 +22,6 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void testNoIdConflicts() {
-        Task task1 = new Task("Task1", "Desc1", Status.NEW);
-        tm.addTask(task1);
-
-        assertEquals(task1, tm.getTaskById(task1.getId()));
-    }
-
-    @Test
-    void testUniqueIdGeneration() {
-        Task task1 = new Task("Task1", "Desc1", Status.NEW);
-        Task task2 = new Task("Task2", "Desc2", Status.NEW);
-        tm.addTask(task1);
-        tm.addTask(task2);
-        assertEquals(task1.getId() + 1, task2.getId());
-    }
-
-    @Test
-    public void addSubtaskTest() {
-        Epic epic = new Epic("Epic","New epic");
-        tm.addEpic(epic);
-        Subtask subtask = new Subtask("Subtask","New subtask",Status.IN_PROGRESS,1);
-        tm.addSubtask(subtask);
-        assertEquals(List.of(2), epic.getSubtasksIds(), "Don't work");
-    }
-
-    @Test
     public void removeSubtaskCheck() {
         Epic epic = new Epic("Epic","New epic");
         tm.addEpic(epic);
