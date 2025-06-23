@@ -21,7 +21,8 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return  "Название эпика: " + name + '\n' +
+        return  '\n' +
+                "Название эпика: " + name + '\n' +
                 "Описание эпика: " + description + '\n' +
                 "ID эпика: " + id + '\n' +
                 "Статус эпика: " + status + '\n' +

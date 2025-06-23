@@ -20,7 +20,8 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return  "Название подзадачи: " + name + '\n' +
+        return  '\n' +
+                "Название подзадачи: " + name + '\n' +
                 "Описание подзадачи: " + description + '\n' +
                 "ID подзадачи: " + id + '\n' +
                 "Статус подзадачи: " + status + '\n' +
