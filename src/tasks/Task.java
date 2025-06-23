@@ -36,7 +36,8 @@ public class Task {
 
     @Override
     public String toString() {
-        return  "Название задачи: " + name + '\n' +
+        return  '\n' +
+                "Название задачи: " + name + '\n' +
                 "Описание задачи: " + description + '\n' +
                 "ID задачи: " + id + '\n' +
                 "Статус задачи: " + status + '\n' + '\n';
@@ -70,5 +71,9 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(name, description, id, status);
+    }
+
+    public TaskType getType() {
+        return TaskType.TASK;
     }
 }
