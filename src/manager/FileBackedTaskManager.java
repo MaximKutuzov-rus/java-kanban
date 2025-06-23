@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static tasks.TaskType.*;
+
 public class FileBackedTaskManager extends InMemoryTaskManager {
     public File file;
 
@@ -17,7 +19,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save() {
         try {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8, false))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8,
+                    false))) {
                 writer.write("id,type,name,status,description,epic\n");
                 List<Task> allTasks = new ArrayList<>(getAllTasks());
                 allTasks.addAll(getAllEpics());
@@ -35,7 +38,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public <T extends Task> String toString(T task) {
-        if (task.getType().equals(TaskType.SUBTASK)) {
+        if (task.getType().equals(SUBTASK)) {
             Subtask subtask = (Subtask) task;
             return String.format("%d,%s,%s,%s,%s,%d", subtask.getId(), subtask.getType(), subtask.getName(),
                     subtask.getStatus(), subtask.getDescription(), subtask.getEpicId());
@@ -48,11 +51,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public Task fromString(String string) {
         String[] array = string.split(",");
         Task task;
-        switch (array[1]) {
-            case "TASK":
+        switch (TaskType.valueOf(array[1])) {
+            case TASK:
                 task = new Task(array[2], array[4], Status.valueOf(array[3]), Integer.parseInt(array[0]));
                 break;
-            case "EPIC":
+            case EPIC:
                 task = new Epic(array[2], array[4], Integer.parseInt(array[0]));
                 break;
             default:
@@ -69,17 +72,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 reader.readLine();
                 while (reader.ready()) {
                     Task task = fromString(reader.readLine());
-                    if (task.getType().equals(TaskType.TASK)) {
+                    if (task.getType().equals(TASK)) {
                         Task copyTask = new Task(task.getName(), task.getDescription(), task.getStatus());
                         copyTask.setId(task.getId());
                         manager.tasks.put(copyTask.getId(),copyTask);
-                    } else if (task.getType().equals(TaskType.EPIC)) {
+                    } else if (task.getType().equals(EPIC)) {
                         Epic epic = (Epic) task;
                         Epic copyEpic = new Epic(epic.getName(), epic.getDescription());
                         copyEpic.setId(epic.getId());
                         manager.epics.put(copyEpic.getId(),copyEpic);
                         calculateEpicStatus(copyEpic);
-                    } else if (task.getType().equals(TaskType.SUBTASK)) {
+                    } else if (task.getType().equals(SUBTASK)) {
                         Subtask subtask = (Subtask) task;
                         Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(),
                                 subtask.getStatus(), subtask.getEpicId());

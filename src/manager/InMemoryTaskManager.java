@@ -109,7 +109,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addSubtask(Subtask subtask) {
-        Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(), subtask.getEpicId());
+        Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(),
+                subtask.getEpicId());
         copySubtask.setId(id);
         subtasks.put(copySubtask.getId(),copySubtask);
 
@@ -153,7 +154,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubtask(Subtask subtask) {
-        Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(), subtask.getEpicId(), subtask.getId());
+        Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(),
+                subtask.getEpicId(), subtask.getId());
         if (subtasks.containsKey(copySubtask.getId())) {
             subtasks.put(copySubtask.getId(),copySubtask);
             calculateEpicStatus(epics.get(copySubtask.getEpicId()));
