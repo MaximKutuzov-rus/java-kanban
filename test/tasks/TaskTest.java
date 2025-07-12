@@ -3,21 +3,41 @@ package tasks;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Month;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class TaskTest {
     private Task task1;
     private Task task2;
+    private Task task3;
 
     @BeforeEach
     void setUp() {
-        task1 = new Task("Description task 1", "Task-1");
-        task2 = new Task("Description task 1", "Task-1");
+        task1 = new Task("Переезд", "В новую квартиру", Status.NEW, Duration.ofMinutes(240),
+                LocalDateTime.of(2025, Month.JULY, 11, 14, 40));
+        task2 = new Task("Переезд", "В новый дом", Status.NEW, Duration.ofMinutes(20),
+                LocalDateTime.of(2025, Month.JULY, 13, 15, 50));
+        task3 = new Task("Переезд", "В новую квартиру", Status.NEW, Duration.ofMinutes(240),
+                LocalDateTime.of(2025, Month.JULY, 11, 15, 40));
     }
 
     @Test
     void testEquals() {
         task2.setId(task1.getId());
-        assertEquals(task1, task2, "Tasks are not equal");
+        assertNotEquals(task1, task2, "Tasks are not equal");
+    }
+
+    @Test
+    void setUpEndTime() {
+        assertEquals(task1.getEndTime(), task1.startTime.plus(task1.duration));
+    }
+
+    @Test
+    void equalsCheck() {
+        assertNotEquals(task1, task3);
     }
 }

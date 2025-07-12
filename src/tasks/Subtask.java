@@ -2,6 +2,7 @@ package tasks;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Subtask extends Task {
     protected int epicId;
@@ -42,7 +43,8 @@ public class Subtask extends Task {
                     "ID эпика: " + epicId + '\n' +
                     "Время старта выполнения подзадачи: " + startTime.format(formatter)+ '\n' +
                     "Время окончания выполнения задачи: " + getEndTime().format(formatter) + '\n' +
-                    '\n';
+                    "Продолжительность выполнения задачи: " + duration.toHours() + " ч. " + duration.toMinutesPart() +
+                    " мин." + '\n' + '\n';
         } else {
             return '\n' +
                     "Название подзадачи: " + name + '\n' +
@@ -61,5 +63,18 @@ public class Subtask extends Task {
     @Override
     public TaskType getType() {
         return TaskType.SUBTASK;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Subtask subtask = (Subtask) o;
+        return epicId == subtask.epicId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), epicId);
     }
 }

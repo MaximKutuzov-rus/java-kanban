@@ -24,33 +24,34 @@ public class Main {
         taskManager.addSubtask(subtask2);
         taskManager.addSubtask(subtask3);
         taskManager.addEpic(epic2);
+//        taskManager.getTaskById(2);
+//
+//        taskManager.getSubtaskById(5);
+//
+//        taskManager.getEpicById(7);
+//
+//        taskManager.getTaskById(1);
+//
+//        taskManager.getSubtaskById(4);
+//
+//        taskManager.getTaskById(1);
+//
+//        taskManager.getSubtaskById(6);
+//
+//        taskManager.getEpicById(3);
+//
+//        taskManager.getEpicById(7);
 
-        taskManager.getTaskById(2);
+//        taskManager.deleteSubtaskById(5);
+//
+//        taskManager.deleteEpicById(3);
 
-        taskManager.getSubtaskById(5);
+        taskManager.deleteAllSubtasks();
 
-        taskManager.getEpicById(7);
+//        System.out.println(taskManager.getHistory());
 
-        taskManager.getTaskById(1);
-
-        taskManager.getSubtaskById(4);
-
-        taskManager.getTaskById(1);
-
-        taskManager.getSubtaskById(6);
-
-        taskManager.getEpicById(3);
-
-        taskManager.getEpicById(7);
-
-        taskManager.deleteSubtaskById(5);
-
-        taskManager.deleteEpicById(3);
-
-        System.out.println(taskManager.getHistory());
-
-        /*System.out.println(taskManager.getAllTasks());
+        System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
-        System.out.println(taskManager.getAllSubtasks());*/
+        System.out.println(taskManager.getAllSubtasks());
     }
 }

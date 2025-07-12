@@ -3,6 +3,7 @@ package tasks;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Formatter;
 import java.util.Objects;
 
 public class Task {
@@ -93,17 +94,16 @@ public class Task {
         this.duration = duration;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description) &&
-                status == task.status;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, description, id, status);
+    public boolean checkIntersection(Task task) {
+        if (this.getStartTime() == null || task.getStartTime() == null) {
+            return false;
+        } else if (this.getStartTime().isBefore(task.getStartTime()) && this.getEndTime().isAfter(task.getStartTime())) {
+            return true;
+        } else if (this.getStartTime().isAfter(task.getStartTime()) && task.getEndTime().isAfter(this.getStartTime())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -116,8 +116,8 @@ public class Task {
                     "Статус задачи: " + status + '\n' +
                     "Время старта выполнения задачи: " + startTime.format(formatter) + '\n' +
                     "Время окончания выполнения задачи: " + getEndTime().format(formatter) + '\n' +
-                    '\n';
-
+                    "Продолжительность выполнения задачи: " + duration.toHours() + " ч. " + duration.toMinutesPart() +
+                    " мин." + '\n' + '\n';
         } else {
             return  '\n' +
                     "Название задачи: " + name + '\n' +
@@ -126,5 +126,19 @@ public class Task {
                     "Статус задачи: " + status + '\n' +
                     '\n';
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description) &&
+                status == task.status && Objects.equals(duration, task.duration) && Objects.equals(startTime,
+                task.startTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, id, status, duration, startTime);
     }
 }
