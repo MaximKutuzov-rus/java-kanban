@@ -1,4 +1,4 @@
-package tm;
+package managers;
 
 public class Managers {
 

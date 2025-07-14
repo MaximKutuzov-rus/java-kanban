@@ -1,4 +1,4 @@
-package tm;
+package managers;
 
 import exceptions.ManagerSaveException;
 import tasks.*;
