@@ -41,7 +41,7 @@ public class Subtask extends Task {
                     "ID подзадачи: " + id + '\n' +
                     "Статус подзадачи: " + status + '\n' +
                     "ID эпика: " + epicId + '\n' +
-                    "Время старта выполнения подзадачи: " + startTime.format(formatter)+ '\n' +
+                    "Время старта выполнения подзадачи: " + startTime.format(formatter) + '\n' +
                     "Время окончания выполнения задачи: " + getEndTime().format(formatter) + '\n' +
                     "Продолжительность выполнения задачи: " + duration.toHours() + " ч. " + duration.toMinutesPart() +
                     " мин." + '\n' + '\n';
