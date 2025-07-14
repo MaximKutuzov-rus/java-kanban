@@ -1,4 +1,4 @@
-package manager;
+package tm;
 
 import exceptions.ManagerSaveException;
 import tasks.*;
@@ -205,12 +205,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static void main(String[] args) {
-        //try {
-            File file = new File("src" + File.separator + "file.csv");
-                    //File.createTempFile("file", ".csv");
+        try {
+            File file = //new File("src" + File.separator + "file.csv");
+                    File.createTempFile("file", ".csv");
             FileBackedTaskManager manager = new FileBackedTaskManager(file);
 
-            Task task1 = new Task("Переезд", "В новую квартиру", Status.NEW, Duration.ofMinutes(240),
+            Task task1 = new Task("Переезд", "В новую квартиру", Status.NEW, Duration.ofMinutes(20),
                     LocalDateTime.of(2025, Month.JULY, 11, 14, 40));
             Task task2 = new Task("Переезд", "В новый дом", Status.NEW, Duration.ofMinutes(20),
                     LocalDateTime.of(2025, Month.JULY, 11, 15, 50));
@@ -238,12 +238,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
             FileBackedTaskManager newManager = manager.loadFromFile(file);
 
-//            System.out.println(newManager.getAllTasks());
-//            System.out.println(newManager.getAllEpics());
-//            System.out.println(newManager.getAllSubtasks());
-//        System.out.println(newManager.getPrioritizedTasks());
-        /*} catch (IOException exp) {
+            System.out.println(newManager.getAllTasks());
+            System.out.println(newManager.getAllEpics());
+            System.out.println(newManager.getAllSubtasks());
+            System.out.println(newManager.getPrioritizedTasks());
+        } catch (IOException exp) {
             System.out.println(exp.getMessage());
-        }*/
+        }
     }
 }

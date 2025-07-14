@@ -1,4 +1,4 @@
-package manager;
+package tm;
 
 import tasks.Epic;
 import tasks.Subtask;
@@ -6,7 +6,6 @@ import tasks.Task;
 
 import java.util.Collection;
 import java.util.List;
-
 
 
 public interface TaskManager {

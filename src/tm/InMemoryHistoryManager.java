@@ -1,4 +1,4 @@
-package manager;
+package tm;
 
 import tasks.Task;
 
@@ -30,7 +30,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             tasks.add(currentTask.data);
             currentTask = currentTask.next;
         }
-        return tasks;
+        return tasks.reversed();
     }
 
     private void removeNode(Node<Task> node) {

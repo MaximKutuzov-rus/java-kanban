@@ -1,5 +1,5 @@
-import manager.Managers;
-import manager.TaskManager;
+import tm.Managers;
+import tm.TaskManager;
 import tasks.Epic;
 import tasks.Status;
 import tasks.Subtask;
@@ -12,8 +12,8 @@ public class Main {
         Task task1 = new Task("Переезд", "В новую квартиру", Status.NEW);
         Task task2 = new Task("Переезд", "В новый дом", Status.NEW);
         Epic epic1 = new Epic("Перевод денег", "Перевести деньги другу");
-        Subtask subtask1 = new Subtask("Приложение банка", "Открыть приложение банка", Status.IN_PROGRESS, 3);
-        Subtask subtask2 = new Subtask("Открыть вкладку расходов", "Открытие вкладки расходов", Status.NEW, 3);
+        Subtask subtask1 = new Subtask("Приложение банка", "Открыть приложение банка", Status.DONE, 3);
+        Subtask subtask2 = new Subtask("Открыть вкладку расходов", "Открытие вкладки расходов", Status.DONE, 3);
         Subtask subtask3 = new Subtask("Отправка", "Отправка денег другу", Status.DONE, 3);
         Epic epic2 = new Epic("Пройти курс", "Пройти курс от ЯП");
 
@@ -41,12 +41,12 @@ public class Main {
 //        taskManager.getEpicById(3);
 //
 //        taskManager.getEpicById(7);
-
+//
 //        taskManager.deleteSubtaskById(5);
 //
 //        taskManager.deleteEpicById(3);
 
-        taskManager.deleteAllSubtasks();
+//        taskManager.deleteAllSubtasks();
 
 //        System.out.println(taskManager.getHistory());
 

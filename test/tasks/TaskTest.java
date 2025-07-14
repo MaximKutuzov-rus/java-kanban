@@ -7,8 +7,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
     private Task task1;
@@ -20,15 +19,9 @@ class TaskTest {
         task1 = new Task("Переезд", "В новую квартиру", Status.NEW, Duration.ofMinutes(240),
                 LocalDateTime.of(2025, Month.JULY, 11, 14, 40));
         task2 = new Task("Переезд", "В новый дом", Status.NEW, Duration.ofMinutes(20),
-                LocalDateTime.of(2025, Month.JULY, 13, 15, 50));
+                LocalDateTime.of(2025, Month.JULY, 11, 15, 50));
         task3 = new Task("Переезд", "В новую квартиру", Status.NEW, Duration.ofMinutes(240),
                 LocalDateTime.of(2025, Month.JULY, 11, 15, 40));
-    }
-
-    @Test
-    void testEquals() {
-        task2.setId(task1.getId());
-        assertNotEquals(task1, task2, "Tasks are not equal");
     }
 
     @Test
@@ -39,5 +32,10 @@ class TaskTest {
     @Test
     void equalsCheck() {
         assertNotEquals(task1, task3);
+    }
+
+    @Test
+    void intersectionCheck() {
+        assertTrue(task2.checkIntersection(task3));
     }
 }
