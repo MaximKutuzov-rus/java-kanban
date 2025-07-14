@@ -43,7 +43,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public <T extends Task> String toString(T task) {
         if (task.getType().equals(SUBTASK)) {
             Subtask subtask = (Subtask) task;
-            if(subtask.getStartTime() != null) {
+            if (subtask.getStartTime() != null) {
                 return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%d", subtask.getId(), subtask.getType(), subtask.getName(),
                         subtask.getStatus(), subtask.getDescription(), subtask.getEpicId(),
                         subtask.getStartTime().format(formatter), subtask.getEndTime().format(formatter),
@@ -53,7 +53,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         subtask.getStatus(), subtask.getDescription(), subtask.getEpicId());
             }
         } else {
-            if(task.getStartTime() != null) {
+            if (task.getStartTime() != null) {
                 return String.format("%s,%s,%s,%s,%s,Нет,%s,%s,%d", task.getId(), task.getType(), task.getName(),
                         task.getStatus(), task.getDescription(),task.getStartTime().format(formatter),
                         task.getEndTime().format(formatter), task.getDuration().toMinutes());
@@ -69,7 +69,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         Task task;
         switch (TaskType.valueOf(array[1])) {
             case TASK:
-                if(array.length == 5) {
+                if (array.length == 5) {
                     task = new Task(array[2], array[4], Status.valueOf(array[3]), Integer.parseInt(array[0]));
                 } else {
                     task = new Task(array[2], array[4], Status.valueOf(array[3]), Integer.parseInt(array[0]),
@@ -80,7 +80,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 task = new Epic(array[2], array[4], Integer.parseInt(array[0]));
                 break;
             default:
-                if(array.length == 6) {
+                if (array.length == 6) {
                     task = new Subtask(array[2], array[4], Status.valueOf(array[3]), Integer.parseInt(array[5]),
                             Integer.parseInt(array[0]));
                 } else {
@@ -220,7 +220,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     LocalDateTime.of(2025, Month.JULY, 11, 19, 37));
             Subtask subtask2 = new Subtask("Открыть вкладку расходов", "Открытие вкладки расходов",
                     Status.NEW, 3, Duration.ofMinutes(15),
-                    LocalDateTime.of(2025, Month.JULY, 11, 15 , 25));
+                    LocalDateTime.of(2025, Month.JULY, 11, 15, 25));
             Subtask subtask3 = new Subtask("Отправка", "Отправка денег другу", Status.DONE, 3,
                     Duration.ofMinutes(40), LocalDateTime.of(2025, Month.JULY, 11, 18, 10));
             Epic epic2 = new Epic("Пройти курс", "Пройти курс от ЯП");
