@@ -107,7 +107,7 @@ public class Task {
 
     @Override
     public String toString() {
-        if(duration != null && startTime != null) {
+        if (duration != null && startTime != null) {
             return  '\n' +
                     "Название задачи: " + name + '\n' +
                     "Описание задачи: " + description + '\n' +
