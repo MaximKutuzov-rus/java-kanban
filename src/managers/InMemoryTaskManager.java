@@ -9,7 +9,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
     protected int id = 1;
@@ -20,22 +19,23 @@ public class InMemoryTaskManager implements TaskManager {
     protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
 
     @Override
+
     public void addTask(Task task) {
-        if (haveNoIntersections(task)) {
+        if (hasNoIntersections(task)) {
             Task copyTask = new Task(task.getName(), task.getDescription(), task.getStatus(), task.getDuration(),
                     task.getStartTime());
             copyTask.setId(id);
             tasks.put(copyTask.getId(),copyTask);
         } else {
-            System.out.println("\nЗадача " + task.getName() + " не может быть добавлена," +
-                    " так как накладывается по времени на существующие задачи\n");
+            System.out.printf("Задача %s не может быть добавлена," +
+                    " так как накладывается по времени на существующие задачи\n\n", task.getName());
         }
         id++;
     }
 
     @Override
     public Collection<Task> getAllTasks() {
-        return tasks.values();
+        return new ArrayList<>(tasks.values());
     }
 
     @Override
@@ -58,15 +58,15 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
-        if (haveNoIntersections(task)) {
+        if (hasNoIntersections(task)) {
             Task copyTask = new Task(task.getName(), task.getDescription(), task.getStatus(), task.getId(),
                     task.getDuration(), task.getStartTime());
             if (tasks.containsKey(copyTask.getId())) {
                 tasks.put(copyTask.getId(),copyTask);
             }
         } else {
-            System.out.println("\nЗадача " + task.getName() + " не может быть обновлена," +
-                    " так как накладывается по времени на существующие задачи\n");
+            System.out.printf("Задача %s не может быть обновлена," +
+                    " так как накладывается по времени на существующие задачи\n\n", task.getName());
         }
     }
 
@@ -82,7 +82,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Collection<Epic> getAllEpics() {
-        return epics.values();
+        return new ArrayList<>(epics.values());
     }
 
     @Override
@@ -127,7 +127,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addSubtask(Subtask subtask) {
-        if (haveNoIntersections(subtask)) {
+        if (hasNoIntersections(subtask)) {
             Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(),
                     subtask.getEpicId(), subtask.getDuration(), subtask.getStartTime());
             copySubtask.setId(id);
@@ -139,15 +139,15 @@ public class InMemoryTaskManager implements TaskManager {
             calculateEpicStatus(epicToAddId);
             calculateEpicTime(epicToAddId);
         } else {
-            System.out.println("\nЗадача " + subtask.getName() + " не может быть добавлена," +
-                    " так как накладывается по времени на существующие задачи\n");
+            System.out.printf("Задача %s не может быть добавлена," +
+                    " так как накладывается по времени на существующие задачи\n\n", subtask.getName());
         }
         id++;
     }
 
     @Override
     public Collection<Subtask> getAllSubtasks() {
-        return subtasks.values();
+        return new ArrayList<>(subtasks.values());
     }
 
     @Override
@@ -182,7 +182,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubtask(Subtask subtask) {
-        if (haveNoIntersections(subtask)) {
+        if (hasNoIntersections(subtask)) {
             Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(),
                     subtask.getEpicId(), subtask.getId(), subtask.getDuration(), subtask.getStartTime());
             if (subtasks.containsKey(copySubtask.getId())) {
@@ -191,8 +191,8 @@ public class InMemoryTaskManager implements TaskManager {
                 calculateEpicTime(epics.get(copySubtask.getEpicId()));
             }
         } else {
-            System.out.println("\nЗадача " + subtask.getName() + " не может быть обновлена," +
-                    " так как накладывается по времени на существующие задачи\n");
+            System.out.printf("Задача %s не может быть обновлена," +
+                    " так как накладывается по времени на существующие задачи\n\n", subtask.getName());
         }
     }
 
@@ -213,31 +213,20 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    public boolean haveNoIntersections(Task task) {
-        Set<Task> notIntersectingTasks = getPrioritizedTasks()
-                .stream()
-                .filter(task1 -> !task1.checkIntersection(task))
-                .collect(Collectors.toSet());
-        return getPrioritizedTasks().size() == notIntersectingTasks.size();
+    public boolean hasNoIntersections(Task task) {
+        return getPrioritizedTasks().stream()
+                .noneMatch(existingTask -> existingTask.checkIntersection(task));
     }
 
     public Set<Task> getPrioritizedTasks() {
-        List<Task> allTasks = new ArrayList<>(getAllTasks());
-        allTasks.addAll(getAllSubtasks());
-        List<Task> onlyWithTimeTasks = allTasks
-                .stream()
+        Set<Task> sortedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
+        getAllTasks().stream()
                 .filter(task -> task.getStartTime() != null)
-                .toList();
-        Set<Task> sortedTasks = new TreeSet<>((task1, task2) -> {
-            if (task1.getStartTime().isAfter(task2.getStartTime())) {
-                return 1;
-            } else if (task1.getStartTime().isBefore(task2.getStartTime())) {
-                return -1;
-            } else {
-                return 0;
-            }
-        });
-        sortedTasks.addAll(onlyWithTimeTasks);
+                .forEach(sortedTasks::add);
+
+        getAllSubtasks().stream()
+                .filter(task -> task.getStartTime() != null)
+                .forEach(sortedTasks::add);
         return sortedTasks;
     }
 
@@ -281,47 +270,29 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     protected void calculateEpicTime(Epic epic) {
-        List<Subtask> epicSubtasks = getSubtasksOfEpic(epic.getId())
-                .stream()
+        List<Subtask> epicSubtasks = getSubtasksOfEpic(epic.getId()).stream()
                 .filter(subtask -> subtask.getStartTime() != null)
                 .toList();
-        if (epicSubtasks.size() == 1) {
-            epic.setStartTime(epicSubtasks.getFirst().getStartTime());
-            epic.setEndTime(epicSubtasks.getFirst().getEndTime());
-            epic.setDuration(Duration.between(epicSubtasks.getFirst().getStartTime(),
-                    epicSubtasks.getFirst().getEndTime()));
-        } else if (epicSubtasks.isEmpty()) {
+
+        if (epicSubtasks.isEmpty()) {
             epic.setStartTime(null);
             epic.setEndTime(null);
             epic.setDuration(null);
-        } else {
-            LocalDateTime epicStartTime = epicSubtasks
-                    .stream()
-                    .max((subtask1, subtask2) -> {
-                        if (subtask1.getStartTime().isBefore(subtask2.getStartTime())) {
-                            return 1;
-                        } else if (subtask1.getStartTime().equals(subtask2.getStartTime())) {
-                            return 0;
-                        } else {
-                            return -1;
-                        }
-                    })
-                    .get().getStartTime();
-            LocalDateTime epicEndTime = epicSubtasks
-                    .stream()
-                    .max((subtask1, subtask2) -> {
-                        if (subtask1.getEndTime().isAfter(subtask2.getEndTime())) {
-                            return 1;
-                        } else if (subtask1.getEndTime().equals(subtask2.getEndTime())) {
-                            return 0;
-                        } else {
-                            return -1;
-                        }
-                    })
-                    .get().getEndTime();
-            epic.setStartTime(epicStartTime);
-            epic.setEndTime(epicEndTime);
-            epic.setDuration(Duration.between(epicStartTime, epicEndTime));
+            return;
         }
+
+        LocalDateTime start = epicSubtasks.stream()
+                .map(Subtask::getStartTime)
+                .min(LocalDateTime::compareTo)
+                .orElse(null);
+
+        LocalDateTime end = epicSubtasks.stream()
+                .map(Subtask::getEndTime)
+                .max(LocalDateTime::compareTo)
+                .orElse(null);
+
+        epic.setStartTime(start);
+        epic.setEndTime(end);
+        epic.setDuration(start != null && end != null ? Duration.between(start, end) : null);
     }
 }

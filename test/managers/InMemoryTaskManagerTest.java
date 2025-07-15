@@ -13,7 +13,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager>{
     }
 
     @Test
-    public void haveNoIntersectionsTest() {
+    public void hasNoIntersectionsTest() {
         tm.addTask(task3);
         tm.addTask(task4);
         tm.addEpic(epic3);
@@ -21,6 +21,6 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager>{
         tm.addSubtask(subtask6);
         tm.addSubtask(subtask7);
         tm.addEpic(epic4);
-        assertFalse(tm.haveNoIntersections(subtask8));
+        assertFalse(tm.hasNoIntersections(subtask8));
     }
 }
