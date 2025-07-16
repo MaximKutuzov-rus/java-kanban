@@ -237,11 +237,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             manager.addSubtask(subtask4);
 
             FileBackedTaskManager newManager = manager.loadFromFile(file);
-
-            System.out.println(newManager.getAllTasks());
-            System.out.println(newManager.getAllEpics());
-            System.out.println(newManager.getAllSubtasks());
-//            System.out.println(newManager.getPrioritizedTasks());
+//
+//            System.out.println(newManager.getAllTasks());
+//            System.out.println(newManager.getAllEpics());
+//            System.out.println(newManager.getAllSubtasks());
+            System.out.println(newManager.getPrioritizedTasks());
         } catch (IOException exp) {
             System.out.println(exp.getMessage());
         }
