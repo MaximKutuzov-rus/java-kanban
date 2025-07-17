@@ -21,5 +21,4 @@ class SubtaskTest {
         subtask2.setId(subtask1.getId());
         assertEquals(subtask1, subtask2, "Subtasks are not equal");
     }
-
 }

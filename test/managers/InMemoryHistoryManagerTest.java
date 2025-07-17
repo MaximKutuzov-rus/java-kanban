@@ -1,4 +1,4 @@
-package manager;
+package managers;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,11 +33,56 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void removeCheck() {
+    void removeCheckIfOne() {
         hm.add(task1);
         hm.remove(task1.getId());
         Assertions.assertNull(hm.getTail());
         Assertions.assertNull(hm.getHead());
+    }
+
+    @Test
+    void removeCheckFromCenter() {
+        hm.add(task1);
+        hm.add(task3);
+        hm.add(task4);
+        hm.add(task2);
+        hm.remove(task3.getId());
+        Assertions.assertEquals(List.of(task2,task4,task1), hm.getHistory());
+    }
+
+    @Test
+    void removeCheckFromEnd() {
+        hm.add(task1);
+        hm.add(task3);
+        hm.add(task4);
+        hm.add(task2);
+        hm.remove(task1.getId());
+        Assertions.assertEquals(List.of(task2,task4,task3), hm.getHistory());
+    }
+
+    @Test
+    void removeCheckFromStart() {
+        hm.add(task1);
+        hm.add(task3);
+        hm.add(task4);
+        hm.add(task2);
+        hm.remove(task2.getId());
+        Assertions.assertEquals(List.of(task4,task3,task1), hm.getHistory());
+    }
+
+    @Test
+    void doubleCallCheck() {
+        hm.add(task1);
+        hm.add(task3);
+        hm.add(task4);
+        hm.add(task2);
+        hm.add(task3);
+        Assertions.assertEquals(List.of(task3,task2,task4,task1), hm.getHistory());
+    }
+
+    @Test
+    void emptyHistoryCheck() {
+        Assertions.assertTrue(hm.getHistory().isEmpty());
     }
 
     @Test
@@ -58,6 +103,6 @@ class InMemoryHistoryManagerTest {
         hm.add(task2);
         hm.add(task1);
         hm.add(task4);
-        Assertions.assertEquals(List.of(task3,task2,task1,task4), hm.getHistory());
+        Assertions.assertEquals(List.of(task4,task1,task2,task3), hm.getHistory());
     }
 }
