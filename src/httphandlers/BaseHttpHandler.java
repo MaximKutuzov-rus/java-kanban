@@ -48,7 +48,7 @@ public abstract class BaseHttpHandler implements HttpHandler {
         exchange.close();
     }
 
-    protected void sendHasOverlaps(HttpExchange exchange, String text) throws IOException{
+    protected void sendHasOverlaps(HttpExchange exchange, String text) throws IOException {
         byte[] resp = text.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().add("Content-Type", "text/plain;charset=utf-8");
         exchange.sendResponseHeaders(406, 0);
