@@ -9,7 +9,7 @@ import tasks.Subtask;
 
 import java.io.IOException;
 
-public class SubtaskHandler extends BaseHttpHandler{
+public class SubtaskHandler extends BaseHttpHandler {
     public SubtaskHandler(TaskManager taskManager, Gson gson) {
         super(taskManager, gson);
     }

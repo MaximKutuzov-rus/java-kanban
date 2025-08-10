@@ -15,7 +15,7 @@ public class TaskHandler extends BaseHttpHandler {
     }
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException{
+    public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
         String[] uri = exchange.getRequestURI().getPath().split("/");
         int uriLength = uri.length;
