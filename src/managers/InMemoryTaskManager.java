@@ -21,13 +21,13 @@ public class InMemoryTaskManager implements TaskManager {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
 
     @Override
-    public void addTask(Task task) throws AddTaskException{
+    public void addTask(Task task) throws AddTaskException {
         if (hasNoIntersections(task)) {
             Task copyTask = new Task(task.getName(), task.getDescription(), task.getStatus(), task.getDuration(),
                     task.getStartTime());
             copyTask.setId(id);
             tasks.put(copyTask.getId(),copyTask);
-        } else {;
+        } else {
             throw new AddTaskException(String.format("Задача %s не может быть добавлена," +
                     " так как накладывается по времени на уже существующую задачу", task.getName()));
         }
@@ -62,14 +62,14 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateTask(Task task) throws AddTaskException{
+    public void updateTask(Task task) throws AddTaskException {
         boolean isIntersect = false;
 
         for (Task task1 : getAllTasks()) {
-            if(task1.getId() == task.getId()) {
+            if (task1.getId() == task.getId()) {
                 continue;
             }
-            if(task1.checkIntersection(task)) {
+            if (task1.checkIntersection(task)) {
                 isIntersect = true;
                 break;
             }
@@ -151,7 +151,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addSubtask(Subtask subtask) throws AddTaskException{
+    public void addSubtask(Subtask subtask) throws AddTaskException {
         if (hasNoIntersections(subtask)) {
                 Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(),
                         subtask.getEpicId(), subtask.getDuration(), subtask.getStartTime());
@@ -214,14 +214,14 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateSubtask(Subtask subtask) throws AddTaskException{
+    public void updateSubtask(Subtask subtask) throws AddTaskException {
         boolean isIntersect = false;
 
         for (Subtask subtask1 : getAllSubtasks()) {
-            if(subtask1.getId() == subtask.getId()) {
+            if (subtask1.getId() == subtask.getId()) {
                 continue;
             }
-            if(subtask1.checkIntersection(subtask)) {
+            if (subtask1.checkIntersection(subtask)) {
                 isIntersect = true;
                 break;
             }
