@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import httphandlers.*;
-import managers.FileBackedTaskManager;
 import managers.InMemoryTaskManager;
 import managers.TaskManager;
 import tasks.Epic;
@@ -14,7 +13,6 @@ import tasks.Status;
 import tasks.Subtask;
 import tasks.Task;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.time.Duration;
@@ -98,6 +96,8 @@ public class HttpTaskServer {
         manager.addSubtask(subtask3);
         manager.addEpic(epic2);
         manager.addSubtask(subtask4);
+        manager.getSubtaskById(4);
+        manager.getEpicById(3);
         return manager;
     }
 
