@@ -5,9 +5,7 @@ import adapters.LocalDateTimeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
-import http_handlers.EpicHandler;
-import http_handlers.SubtaskHandler;
-import http_handlers.TaskHandler;
+import http_handlers.*;
 import managers.FileBackedTaskManager;
 import managers.TaskManager;
 import tasks.Epic;
@@ -44,8 +42,8 @@ public class HttpTaskServer {
             httpServer.createContext("/tasks", new TaskHandler(taskManager, gson));
             httpServer.createContext("/subtasks", new SubtaskHandler(taskManager, gson));
             httpServer.createContext("/epics", new EpicHandler(taskManager, gson));
-//        httpServer.createContext("/history", );
-//        httpServer.createContext("/prioritized", );
+            httpServer.createContext("/history", new HistoryHandler(taskManager, gson));
+            httpServer.createContext("/prioritized", new PrioritizedHandler(taskManager, gson));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
