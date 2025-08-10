@@ -213,7 +213,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             Task task1 = new Task("Переезд", "В новую квартиру", Status.NEW, Duration.ofMinutes(20),
                     LocalDateTime.of(2025, Month.JULY, 11, 14, 50));
             Task task2 = new Task("Переезд1", "В новый дом", Status.NEW, Duration.ofMinutes(20),
-                    LocalDateTime.of(2025, Month.JULY, 11, 15, 0));
+                    LocalDateTime.of(2025, Month.JULY, 19, 15, 0));
             Epic epic1 = new Epic("Перевод денег", "Перевести деньги другу");
             Subtask subtask1 = new Subtask("Приложение банка", "Открыть приложение банка",
                     Status.IN_PROGRESS, 3, Duration.ofMinutes(90),
@@ -225,7 +225,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     Duration.ofMinutes(60), LocalDateTime.of(2025, Month.JULY, 11, 17, 5));
             Epic epic2 = new Epic("Пройти курс", "Пройти курс от ЯП");
             Subtask subtask4 = new Subtask("Тренировка", "Провести тренировку в зале", Status.DONE, 7,
-                Duration.ofMinutes(40), LocalDateTime.of(2025, Month.JULY, 11, 17, 45));
+                Duration.ofMinutes(40), LocalDateTime.of(2025, Month.JULY, 20, 17, 45));
 
             manager.addTask(task1);
             manager.addTask(task2);
@@ -235,6 +235,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             manager.addSubtask(subtask3);
             manager.addEpic(epic2);
             manager.addSubtask(subtask4);
+            manager.deleteTaskById(1);
 
             FileBackedTaskManager newManager = manager.loadFromFile(file);
 //

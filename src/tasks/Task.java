@@ -1,9 +1,13 @@
 package tasks;
 
+import managers.InMemoryTaskManager;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+
+import static managers.InMemoryTaskManager.formatter;
 
 public class Task {
     protected String name;
@@ -12,8 +16,6 @@ public class Task {
     protected Status status;
     protected Duration duration;
     protected LocalDateTime startTime;
-    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
-
 
 
     public Task(String name, String description, Status status, int id) {
@@ -96,6 +98,8 @@ public class Task {
     public boolean checkIntersection(Task task) {
         if (this.getStartTime() == null || task.getStartTime() == null) {
             return false;
+        } else if (this.getStartTime().equals(task.getStartTime()) || this.getEndTime().equals(task.getEndTime())) {
+            return true;
         } else if (this.getStartTime().isBefore(task.getStartTime()) && this.getEndTime().isAfter(task.getStartTime())) {
             return true;
         } else if (this.getStartTime().isAfter(task.getStartTime()) && task.getEndTime().isAfter(this.getStartTime())) {
