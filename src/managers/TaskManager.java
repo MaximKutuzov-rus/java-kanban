@@ -5,6 +5,7 @@ import tasks.Subtask;
 import tasks.Task;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface TaskManager {
@@ -47,4 +48,6 @@ public interface TaskManager {
     List<Subtask> getSubtasksOfEpic(int epicId);
 
     List<Task> getHistory();
+
+    Set<Task> getPrioritizedTasks();
 }

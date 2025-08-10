@@ -1,18 +1,17 @@
-package http_handlers;
+package httphandlers;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import exceptions.AddTaskException;
 import exceptions.NotFoundException;
 import managers.TaskManager;
-import tasks.Epic;
 import tasks.Subtask;
 
 import java.io.IOException;
 
-public class EpicHandler extends BaseHttpHandler{
-    public EpicHandler(TaskManager taskManager, Gson gson) {
-        super(taskManager,gson);
+public class SubtaskHandler extends BaseHttpHandler{
+    public SubtaskHandler(TaskManager taskManager, Gson gson) {
+        super(taskManager, gson);
     }
 
     @Override
@@ -23,43 +22,33 @@ public class EpicHandler extends BaseHttpHandler{
         switch (method) {
             case "GET":
                 if (uriLength == 2) {
-                    if (!taskManager.getAllEpics().isEmpty()) {
-                        sendText(exchange, gson.toJson(taskManager.getAllEpics()));
+                    if (!taskManager.getAllSubtasks().isEmpty()) {
+                        sendText(exchange, gson.toJson(taskManager.getAllSubtasks()));
                     } else {
                         sendText(exchange, "");
                     }
                 } else if (uriLength == 3) {
                     try {
-                        sendText(exchange, gson.toJson(taskManager.getEpicById(Integer.parseInt(uri[2]))));
+                        sendText(exchange, gson.toJson(taskManager.getSubtaskById(Integer.parseInt(uri[2]))));
                     } catch (NumberFormatException e) {
                         sendRequestError(exchange,
                                 "Ошибка в формате запроса, вторым в пути запроса должно вводиться целое число");
                     } catch (NotFoundException e) {
                         sendNotFound(exchange, e.getMessage());
                     }
-                } else if (uriLength == 4 && uri[3].equals("subtasks")) {
-                    try {
-                        if (!taskManager.getSubtasksOfEpic(Integer.parseInt(uri[2])).isEmpty()) {
-                            sendText(exchange, gson.toJson(taskManager.getSubtasksOfEpic(Integer.parseInt(uri[2]))));
-                        } else {
-                            sendText(exchange, "");
-                        }
-                    } catch (NumberFormatException e) {
-                        sendRequestError(exchange, "Неправильный запрос");
-                    } catch (NotFoundException e) {
-                        sendRequestError(exchange, e.getMessage());
-                    }
                 } else {
                     sendRequestError(exchange, "Обработка такого запроса не предусмотрена");
                 }
             case "POST":
-                Epic epic = fromJsonToTask(exchange, Epic.class);
+                Subtask subtask = fromJsonToTask(exchange, Subtask.class);
                 try {
-                    if (!epic.getName().isEmpty() && !epic.getDescription().isEmpty() && epic.getId() == 0) {
-                        taskManager.addEpic(epic);
+                    if (!subtask.getName().isEmpty() && !subtask.getDescription().isEmpty() && !(subtask.getStatus() == null) &&
+                            subtask.getId() == 0 && subtask.getEpicId() != 0) {
+                        taskManager.addSubtask(subtask);
                         sendEmptyBody(exchange);
-                    } else if (!epic.getName().isEmpty() && !epic.getDescription().isEmpty() && epic.getId() != 0) {
-                        taskManager.updateEpic(epic);
+                    } else if (!subtask.getName().isEmpty() && !subtask.getDescription().isEmpty() && !(subtask.getStatus() == null) &&
+                            subtask.getId() != 0 && subtask.getEpicId() != 0) {
+                        taskManager.updateSubtask(subtask);
                         sendEmptyBody(exchange);
                     } else {
                         sendRequestError(exchange, "Неправильный запрос");
@@ -72,8 +61,8 @@ public class EpicHandler extends BaseHttpHandler{
             case "DELETE":
                 if (uriLength == 3) {
                     try {
-                        taskManager.getEpicById(Integer.parseInt(uri[2])); //чтобы поймать исключение если нет такого элемента
-                        taskManager.deleteEpicById(Integer.parseInt(uri[2]));
+                        taskManager.getSubtaskById(Integer.parseInt(uri[2])); //чтобы поймать исключение если нет такого элемента
+                        taskManager.deleteSubtaskById(Integer.parseInt(uri[2]));
                         sendText(exchange, "");
                     } catch (NumberFormatException e) {
                         sendRequestError(exchange,
