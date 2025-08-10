@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import httphandlers.*;
 import managers.FileBackedTaskManager;
+import managers.InMemoryTaskManager;
 import managers.TaskManager;
 import tasks.Epic;
 import tasks.Status;
@@ -68,9 +69,9 @@ public class HttpTaskServer {
     }
 
     public static TaskManager createTestManager() {
-        File file = new File("src" + File.separator + "file.csv");
-        //File.createTempFile("file", ".csv");
-        FileBackedTaskManager manager = new FileBackedTaskManager(file);
+//        File file = new File("src" + File.separator + "file.csv");
+//        //File.createTempFile("file", ".csv");
+        InMemoryTaskManager manager = new InMemoryTaskManager();
 
         Task task1 = new Task("Переезд", "В новую квартиру", Status.NEW, Duration.ofMinutes(20),
                 LocalDateTime.of(2025, Month.JULY, 11, 14, 50));
@@ -98,5 +99,9 @@ public class HttpTaskServer {
         manager.addEpic(epic2);
         manager.addSubtask(subtask4);
         return manager;
+    }
+
+    public Gson getGson() {
+        return gson;
     }
 }
