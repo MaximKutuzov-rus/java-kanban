@@ -9,7 +9,7 @@ import tasks.Epic;
 
 import java.io.IOException;
 
-public class EpicHandler extends BaseHttpHandler{
+public class EpicHandler extends BaseHttpHandler {
     public EpicHandler(TaskManager taskManager, Gson gson) {
         super(taskManager,gson);
     }
