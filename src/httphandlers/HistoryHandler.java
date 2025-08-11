@@ -15,11 +15,7 @@ public class HistoryHandler extends BaseHttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
         if (method.equals("GET")) {
-            if (!taskManager.getHistory().isEmpty()) {
-                sendText(exchange, gson.toJson(taskManager.getHistory()));
-            } else {
-                sendText(exchange, "");
-            }
+            sendText(exchange, gson.toJson(taskManager.getHistory()));
         } else {
             sendRequestError(exchange, "Некорректный метод запроса");
         }

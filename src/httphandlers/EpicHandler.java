@@ -22,11 +22,7 @@ public class EpicHandler extends BaseHttpHandler {
         switch (method) {
             case "GET":
                 if (uriLength == 2) {
-                    if (!taskManager.getAllEpics().isEmpty()) {
-                        sendText(exchange, gson.toJson(taskManager.getAllEpics()));
-                    } else {
-                        sendText(exchange, "");
-                    }
+                    sendText(exchange, gson.toJson(taskManager.getAllEpics()));
                 } else if (uriLength == 3) {
                     try {
                         sendText(exchange, gson.toJson(taskManager.getEpicById(Integer.parseInt(uri[2]))));
@@ -38,11 +34,7 @@ public class EpicHandler extends BaseHttpHandler {
                     }
                 } else if (uriLength == 4 && uri[3].equals("subtasks")) {
                     try {
-                        if (!taskManager.getSubtasksOfEpic(Integer.parseInt(uri[2])).isEmpty()) {
-                            sendText(exchange, gson.toJson(taskManager.getSubtasksOfEpic(Integer.parseInt(uri[2]))));
-                        } else {
-                            sendText(exchange, "");
-                        }
+                        sendText(exchange, gson.toJson(taskManager.getSubtasksOfEpic(Integer.parseInt(uri[2]))));
                     } catch (NumberFormatException e) {
                         sendRequestError(exchange, "Неправильный запрос");
                     } catch (NotFoundException e) {

@@ -22,11 +22,7 @@ public class TaskHandler extends BaseHttpHandler {
         switch (method) {
             case "GET":
                 if (uriLength == 2) {
-                    if (!taskManager.getAllTasks().isEmpty()) {
-                        sendText(exchange, gson.toJson(taskManager.getAllTasks()));
-                    } else {
-                        sendText(exchange,"");
-                    }
+                    sendText(exchange, gson.toJson(taskManager.getAllTasks()));
                 } else if (uriLength == 3) {
                     try {
                         sendText(exchange, gson.toJson(taskManager.getTaskById(Integer.parseInt(uri[2]))));

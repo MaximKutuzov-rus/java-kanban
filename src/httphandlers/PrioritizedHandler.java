@@ -15,11 +15,7 @@ public class PrioritizedHandler extends BaseHttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
         if (method.equals("GET")) {
-            if (!taskManager.getPrioritizedTasks().isEmpty()) {
-                sendText(exchange, gson.toJson(taskManager.getPrioritizedTasks()));
-            } else {
-                sendText(exchange, "");
-            }
+            sendText(exchange, gson.toJson(taskManager.getPrioritizedTasks()));
         } else {
             sendRequestError(exchange, "Некорректный метод запроса");
         }

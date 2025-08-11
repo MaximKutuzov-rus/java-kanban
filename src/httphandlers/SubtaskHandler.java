@@ -22,11 +22,7 @@ public class SubtaskHandler extends BaseHttpHandler {
         switch (method) {
             case "GET":
                 if (uriLength == 2) {
-                    if (!taskManager.getAllSubtasks().isEmpty()) {
-                        sendText(exchange, gson.toJson(taskManager.getAllSubtasks()));
-                    } else {
-                        sendText(exchange, "");
-                    }
+                    sendText(exchange, gson.toJson(taskManager.getAllSubtasks()));
                 } else if (uriLength == 3) {
                     try {
                         sendText(exchange, gson.toJson(taskManager.getSubtaskById(Integer.parseInt(uri[2]))));
