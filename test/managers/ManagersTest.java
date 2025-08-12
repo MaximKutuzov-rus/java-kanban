@@ -15,4 +15,9 @@ class ManagersTest {
     void getDefault() {
         assertNotNull(Managers.getDefault());
     }
+
+    @Test
+    void getFileBacked() {
+        assertNotNull(Managers.getFileBackedManager());
+    }
 }

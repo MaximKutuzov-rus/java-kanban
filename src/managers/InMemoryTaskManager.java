@@ -1,5 +1,7 @@
 package managers;
 
+import exceptions.AddTaskException;
+import exceptions.NotFoundException;
 import tasks.Epic;
 import tasks.Status;
 import tasks.Subtask;
@@ -16,19 +18,18 @@ public class InMemoryTaskManager implements TaskManager {
     protected final HashMap<Integer, Epic> epics = new HashMap<>();
     protected final HashMap<Integer, Subtask> subtasks = new HashMap<>();
     protected final HistoryManager historyManager = Managers.getDefaultHistory();
-    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
 
     @Override
-
-    public void addTask(Task task) {
+    public void addTask(Task task) throws AddTaskException {
         if (hasNoIntersections(task)) {
             Task copyTask = new Task(task.getName(), task.getDescription(), task.getStatus(), task.getDuration(),
                     task.getStartTime());
             copyTask.setId(id);
             tasks.put(copyTask.getId(),copyTask);
         } else {
-            System.out.printf("Задача %s не может быть добавлена," +
-                    " так как накладывается по времени на существующие задачи\n\n", task.getName());
+            throw new AddTaskException(String.format("Задача %s не может быть добавлена," +
+                    " так как накладывается по времени на уже существующую задачу", task.getName()));
         }
         id++;
     }
@@ -51,22 +52,40 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById(int id) {
-        Task task = tasks.get(id);
-        historyManager.add(task);
-        return tasks.get(id);
+        try {
+            Task task = tasks.get(id);
+            historyManager.add(task);
+            return tasks.get(id);
+        } catch (Exception exp) {
+            throw new NotFoundException("Задача не найдена");
+        }
     }
 
     @Override
-    public void updateTask(Task task) {
-        if (hasNoIntersections(task)) {
+    public void updateTask(Task task) throws AddTaskException {
+        boolean isIntersect = false;
+
+        for (Task task1 : getAllTasks()) {
+            if (task1.getId() == task.getId()) {
+                continue;
+            }
+            if (task1.checkIntersection(task)) {
+                isIntersect = true;
+                break;
+            }
+        }
+
+        if (!isIntersect) {
             Task copyTask = new Task(task.getName(), task.getDescription(), task.getStatus(), task.getId(),
                     task.getDuration(), task.getStartTime());
             if (tasks.containsKey(copyTask.getId())) {
                 tasks.put(copyTask.getId(),copyTask);
+            } else {
+                throw new NotFoundException("Нет такой задачи");
             }
         } else {
-            System.out.printf("Задача %s не может быть обновлена," +
-                    " так как накладывается по времени на существующие задачи\n\n", task.getName());
+            throw new AddTaskException(String.format("Задача %s не может быть добавлена," +
+                    " так как накладывается по времени на уже существующую задачу", task.getName()));
         }
     }
 
@@ -106,9 +125,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic getEpicById(int id) {
-        Epic epic = epics.get(id);
-        historyManager.add(epic);
-        return epics.get(id);
+        try {
+            Epic epic = epics.get(id);
+            historyManager.add(epic);
+            return epics.get(id);
+        } catch (Exception e) {
+            throw new NotFoundException("Не найден такой эпик");
+        }
     }
 
     @Override
@@ -122,25 +145,31 @@ public class InMemoryTaskManager implements TaskManager {
             epics.put(copyEpic.getId(),copyEpic);
             calculateEpicStatus(copyEpic);
             calculateEpicTime(copyEpic);
+        } else {
+            throw new NotFoundException("Эпик не найден");
         }
     }
 
     @Override
-    public void addSubtask(Subtask subtask) {
+    public void addSubtask(Subtask subtask) throws AddTaskException {
         if (hasNoIntersections(subtask)) {
-            Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(),
-                    subtask.getEpicId(), subtask.getDuration(), subtask.getStartTime());
-            copySubtask.setId(id);
-            subtasks.put(copySubtask.getId(),copySubtask);
+                Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(),
+                        subtask.getEpicId(), subtask.getDuration(), subtask.getStartTime());
+                copySubtask.setId(id);
+            if (epics.containsKey(copySubtask.getEpicId())) {
+                subtasks.put(copySubtask.getId(), copySubtask);
 
-            Epic epicToAddId = epics.get(copySubtask.getEpicId());
-            epicToAddId.getSubtasksIds().add(copySubtask.getId());
+                Epic epicToAddId = epics.get(copySubtask.getEpicId());
+                epicToAddId.getSubtasksIds().add(copySubtask.getId());
 
-            calculateEpicStatus(epicToAddId);
-            calculateEpicTime(epicToAddId);
+                calculateEpicStatus(epicToAddId);
+                calculateEpicTime(epicToAddId);
+            } else {
+                throw new AddTaskException("Нет такого эпика, чтобы добавить ыв него подзадачу");
+            }
         } else {
-            System.out.printf("Задача %s не может быть добавлена," +
-                    " так как накладывается по времени на существующие задачи\n\n", subtask.getName());
+            throw new AddTaskException(String.format("Подзадача %s не может быть добавлена," +
+                    " так как накладывается по времени на уже существующую задачу", subtask.getName()));
         }
         id++;
     }
@@ -175,37 +204,59 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Subtask getSubtaskById(int id) {
-        Subtask subtask = subtasks.get(id);
-        historyManager.add(subtask);
-        return subtasks.get(id);
+        try {
+            Subtask subtask = subtasks.get(id);
+            historyManager.add(subtask);
+            return subtasks.get(id);
+        } catch (Exception e) {
+            throw new NotFoundException("Не найдена такая подзадача");
+        }
     }
 
     @Override
-    public void updateSubtask(Subtask subtask) {
-        if (hasNoIntersections(subtask)) {
+    public void updateSubtask(Subtask subtask) throws AddTaskException {
+        boolean isIntersect = false;
+
+        for (Subtask subtask1 : getAllSubtasks()) {
+            if (subtask1.getId() == subtask.getId()) {
+                continue;
+            }
+            if (subtask1.checkIntersection(subtask)) {
+                isIntersect = true;
+                break;
+            }
+        }
+
+        if (!isIntersect) {
             Subtask copySubtask = new Subtask(subtask.getName(), subtask.getDescription(), subtask.getStatus(),
                     subtask.getEpicId(), subtask.getId(), subtask.getDuration(), subtask.getStartTime());
-            if (subtasks.containsKey(copySubtask.getId())) {
+            if (subtasks.containsKey(copySubtask.getId()) && epics.containsKey(copySubtask.getEpicId()) &&
+                    epics.get(copySubtask.getEpicId()).getSubtasksIds().contains(copySubtask.getId())) {
                 subtasks.put(copySubtask.getId(),copySubtask);
                 calculateEpicStatus(epics.get(copySubtask.getEpicId()));
                 calculateEpicTime(epics.get(copySubtask.getEpicId()));
+            } else {
+                throw new NotFoundException("Нет такой подзадачи или эпика");
             }
         } else {
-            System.out.printf("Задача %s не может быть обновлена," +
-                    " так как накладывается по времени на существующие задачи\n\n", subtask.getName());
+            throw new AddTaskException(String.format("Подзадача %s не может быть добавлена," +
+                    " так как накладывается по времени на уже существующую задачу", subtask.getName()));
         }
     }
 
     @Override
     public List<Subtask> getSubtasksOfEpic(int epicId) {
-
-        Epic epicWeNeed = epics.get(epicId);
-        ArrayList<Subtask> subtasksWeNeed = new ArrayList<>();
-        List<Integer> subtasksWeNeedIds = epicWeNeed.getSubtasksIds()
-                .stream()
-                .peek(id -> subtasksWeNeed.add(subtasks.get(id)))
-                .toList();
-        return subtasksWeNeed;
+        if (epics.containsKey(epicId)) {
+            Epic epicWeNeed = epics.get(epicId);
+            ArrayList<Subtask> subtasksWeNeed = new ArrayList<>();
+            List<Integer> subtasksWeNeedIds = epicWeNeed.getSubtasksIds()
+                    .stream()
+                    .peek(id -> subtasksWeNeed.add(subtasks.get(id)))
+                    .toList();
+            return subtasksWeNeed;
+        } else {
+            throw new NotFoundException("Нет такого эпика");
+        }
     }
 
     @Override
